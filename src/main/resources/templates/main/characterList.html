@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="kor"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="tailwind,tailwindcss,tailwind css,css,starter template,free template,admin templates, admin template, admin dashboard, free tailwind templates, tailwind example">
+    <!-- Css -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+    <title>24길드 | 캐릭터</title>
+</head>
+
+<body>
+<!--Container -->
+<div class="mx-auto bg-grey-400">
+    <!--Screen-->
+    <div class="min-h-screen flex flex-col">
+        <!--Header Section Starts Here-->
+        <header class="bg-nav">
+            <div th:replace="~{frag/header::header}"></div>
+        </header>
+        <!--/Header-->
+
+        <div class="flex flex-1">
+            <!--Sidebar-->
+            <aside th:replace="~{frag/sidebar::sidebar}"></aside>
+            <!--/Sidebar-->
+            <!--Main-->
+            <main class="bg-white-300 flex-1 p-3 overflow-hidden">
+
+                <div class="flex flex-col">
+                    <!--Profile Tabs-->
+                    <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2 p-1 mt-2 mx-auto lg:mx-2 md:mx-2 justify-between">
+                        <!--Top user 1-->
+                        <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">
+                            <img src="https://i.imgur.com/w1Bdydo.jpg" alt="" class="w-full"/>
+                            <div class="text-center px-3 pb-6 pt-2">
+                                <h3 class="text-black text-sm bold font-sans">북극곰은콜라</h3>
+                                <p class="mt-2 font-sans font-light text-grey-700">Hello, i'm from another the other
+                                    side!</p>
+                            </div>
+                        </div>
+                        <!--Top user 2-->
+                        <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">
+                            <img src="https://i.imgur.com/w1Bdydo.jpg" alt="" class="w-full"/>
+                            <div class="flex justify-center -mt-8">
+                                <img src="https://i.imgur.com/8Km9tLL.jpg" alt=""
+                                     class="rounded-full border-solid border-white border-2 -mt-3">
+                            </div>
+                            <div class="text-center px-3 pb-6 pt-2">
+                                <h3 class="text-black text-sm bold font-sans">Olivia Dunham</h3>
+                                <p class="mt-2 font-sans font-light text-grey-dark">Hello, i'm from another the other
+                                    side!</p>
+                            </div>
+                            <div class="flex justify-center pb-3 text-grey-dark">
+                                <div class="text-center mr-3 border-r pr-3">
+                                    <h2>34</h2>
+                                    <span>Photos</span>
+                                </div>
+                                <div class="text-center">
+                                    <h2>42</h2>
+                                    <span>Friends</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!--Top user 3-->
+                        <div class="rounded rounded-t-lg overflow-hidden shadow max-w-xs my-3">
+                            <img src="https://i.imgur.com/w1Bdydo.jpg" alt="" class="w-full"/>
+                            <div class="flex justify-center -mt-8">
+                                <img src="https://i.imgur.com/8Km9tLL.jpg" alt=""
+                                     class="rounded-full border-solid border-white border-2 -mt-3">
+                            </div>
+                            <div class="text-center px-3 pb-6 pt-2">
+                                <h3 class="text-black text-sm bold font-sans">Olivia Dunham</h3>
+                                <p class="mt-2 font-sans font-light text-grey-dark">Hello, i'm from another the other
+                                    side!</p>
+                            </div>
+                            <div class="flex justify-center pb-3 text-grey-dark">
+                                <div class="text-center mr-3 border-r pr-3">
+                                    <h2>34</h2>
+                                    <span>Photos</span>
+                                </div>
+                                <div class="text-center">
+                                    <h2>42</h2>
+                                    <span>Friends</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--/Profile Tabs-->
+
+                    <!-- Card Sextion Starts Here -->
+                    <div class="flex flex-1 flex-col md:flex-row lg:flex-row mx-2">
+                        <!-- card -->
+                        <div class="rounded overflow-hidden shadow bg-white mx-2 w-full">
+                            <div class="px-6 py-2 border-b border-light-grey">
+                                <div class="font-bold text-xl">캐릭 현황</div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table text-grey-darkest">
+                                    <thead class="bg-grey-dark text-white text-normal">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Item</th>
+                                        <th scope="col">Last</th>
+                                        <th scope="col">Current</th>
+                                        <th scope="col">Change</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>
+                                            <button class="bg-blue-500 hover:bg-blue-800 text-white font-light py-1 px-2 rounded-full">
+                                                Twitter
+                                            </button>
+                                        </td>
+                                        <td>4500</td>
+                                        <td>4600</td>
+                                        <td>
+                                            <span class="text-green-500"><i class="fas fa-arrow-up"></i>5%</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>
+                                            <button class="bg-primary hover:bg-primary-dark text-white font-light py-1 px-2 rounded-full">
+                                                Facebook
+                                            </button>
+                                        </td>
+                                        <td>10000</td>
+                                        <td>3000</td>
+                                        <td>
+                                            <span class="text-red-500"><i class="fas fa-arrow-down"></i>65%</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>
+                                            <button class="bg-success hover:bg-success-dark text-white font-light py-1 px-2 rounded-full">
+                                                Amazon
+                                            </button>
+                                        </td>
+                                        <td>10000</td>
+                                        <td>3000</td>
+                                        <td>
+                                            <span class="text-red-500"><i class="fas fa-arrow-down"></i>65%</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">4</th>
+                                        <td>
+                                            <button class="bg-blue-500 hover:bg-blue-800 text-white font-light py-1 px-2 rounded-full">
+                                                Microsoft
+                                            </button>
+                                        </td>
+                                        <td>10000</td>
+                                        <td>3000</td>
+                                        <td>
+                                            <span class="text-green-500"><i class="fas fa-arrow-up"></i>65%</span>
+                                        </td>
+                                    </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- /card -->
+                    </div>
+                    <!-- /Cards Section Ends Here -->
+                </div>
+            </main>
+            <!--/Main-->
+        </div>
+        <!--Footer-->
+        <footer th:replace="~{frag/footer}"></footer>
+        <!--/footer-->
+
+    </div>
+
+</div>
+<script src="/static/script/main.js"></script>
+</body>
+
+</html>

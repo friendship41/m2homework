@@ -246,3 +246,8 @@ gradle-app.setting
 **/build/
 
 # End of https://www.toptal.com/developers/gitignore/api/java,java-web,gradle,intellij,intellij+all
+server_info.txt
+server_setting.txt
+application.yml
+
+**/generated/
