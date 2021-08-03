@@ -22,5 +22,5 @@ public class M2Character {
   private int memberNo;
   private String characterName;
   private JobType jobType;
-  private boolean isMain;
+  private Boolean isMain;
 }

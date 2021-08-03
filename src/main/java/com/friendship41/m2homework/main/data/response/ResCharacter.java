@@ -10,10 +10,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ResponseCharacter {
+public class ResCharacter {
   private int characterNo;
   private int memberNo;
   private String characterName;
   private JobType jobType;
-  private boolean isMain;
+  private Boolean isMain;
 }

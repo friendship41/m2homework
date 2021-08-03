@@ -1,8 +1,8 @@
 package com.friendship41.m2homework.main.controller.mvc;
 
 import com.friendship41.m2homework.main.data.entity.M2Character;
-import com.friendship41.m2homework.main.data.response.ResponseCharacter;
-import com.friendship41.m2homework.main.mapper.M2CharacterMapper;
+import com.friendship41.m2homework.main.data.response.ResCharacter;
+import com.friendship41.m2homework.main.mapper.ResCharacterMapper;
 import com.friendship41.m2homework.main.service.M2CharacterService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,18 +18,18 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class M2CharacterController {
   private final M2CharacterService m2CharacterService;
-  private final M2CharacterMapper m2CharacterMapper;
+  private final ResCharacterMapper resCharacterMapper;
 
   @GetMapping("list")
   public String getCharacterList(final Model model) {
     int memberNo = (int) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     List<M2Character> m2CharacterList = this.m2CharacterService.getM2CharacterList(memberNo);
 
-    List<ResponseCharacter> responseCharacterList = m2CharacterList.stream()
-        .map(m2CharacterMapper::toDto)
+    List<ResCharacter> resCharacterList = m2CharacterList.stream()
+        .map(resCharacterMapper::toDto)
         .collect(Collectors.toList());
 
-    model.addAttribute("responseCharacterList", responseCharacterList);
+    model.addAttribute("resCharacterList", resCharacterList);
 
     return "main/characterList";
   }
