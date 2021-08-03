@@ -26,7 +26,6 @@ public class MemberService {
     this.bCryptPasswordEncoder = new BCryptPasswordEncoder(4);
   }
 
-  @Transactional
   public Member getMember(final Integer memberNo, final String memberId) throws MemberNotFoundException {
     Member member;
     if (memberNo == null && memberId == null) {

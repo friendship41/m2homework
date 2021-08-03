@@ -4,7 +4,6 @@ import com.friendship41.m2homework.auth.data.type.RoleType;
 import com.friendship41.m2homework.main.data.entity.M2Character;
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,7 +38,7 @@ public class Member {
   private RoleType roleType;
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "memberNo")
-  private Collection<M2Character> m2Characters = new LinkedHashSet<>();
+  private Collection<M2Character> m2Characters;
 
   @PrePersist
   public void prePersist() {
