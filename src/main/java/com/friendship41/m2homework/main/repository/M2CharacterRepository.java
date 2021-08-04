@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface M2CharacterRepository extends JpaRepository<M2Character, Integer> {
+public interface M2CharacterRepository extends JpaRepository<M2Character, Integer>, M2CharacterRepositoryCustom {
   List<M2Character> findM2CharacterByMemberNoAndIsMain(Integer memberNo, Boolean isMain);
 }

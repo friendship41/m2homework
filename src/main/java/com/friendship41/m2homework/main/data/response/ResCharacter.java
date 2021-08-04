@@ -16,4 +16,5 @@ public class ResCharacter {
   private String characterName;
   private JobType jobType;
   private Boolean isMain;
+  private Integer characterImageNo;
 }

@@ -40,8 +40,9 @@ public class M2CharacterService {
         .getM2Characters());
   }
 
-  public List<M2Character> getM2CharacterIsMainList(final int memberNo, final boolean isMain) {
-    return this.m2CharacterRepository.findM2CharacterByMemberNoAndIsMain(memberNo, isMain);
+  public List<M2Character> getM2CharacterList(final Integer memberNo, final String characterName, final JobType jobType,
+      final Boolean isMain, final Integer characterImageNo) {
+    return this.m2CharacterRepository.findByDynamicQuery(memberNo, characterName, jobType, isMain, characterImageNo);
   }
 
   public List<Map<String, Object>> getJobTypeList() {

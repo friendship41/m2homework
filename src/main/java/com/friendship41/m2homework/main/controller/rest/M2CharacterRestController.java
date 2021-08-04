@@ -4,6 +4,7 @@ import com.friendship41.m2homework.common.data.entity.ImageData;
 import com.friendship41.m2homework.common.service.ImageService;
 import com.friendship41.m2homework.main.data.entity.M2Character;
 import com.friendship41.m2homework.main.data.request.ReqCharacter;
+import com.friendship41.m2homework.main.data.type.JobType;
 import com.friendship41.m2homework.main.mapper.ReqCharacterMapper;
 import com.friendship41.m2homework.main.mapper.ResCharacterMapper;
 import com.friendship41.m2homework.main.service.M2CharacterService;
@@ -36,9 +37,12 @@ public class M2CharacterRestController {
 
   @GetMapping("list")
   public Object getM2CharacterList(
-      @RequestParam(name = "isMain", required = false, defaultValue = "false") boolean isMain) {
+      @RequestParam(name = "characterName", required = false) String characterName,
+      @RequestParam(name = "jobType", required = false) JobType jobType,
+      @RequestParam(name = "isMain", required = false) Boolean isMain,
+      @RequestParam(name = "characterImageNo", required = false) Integer characterImageNo) {
     int memberNo = (int) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    return this.m2CharacterService.getM2CharacterIsMainList(memberNo, isMain).stream()
+    return this.m2CharacterService.getM2CharacterList(memberNo, characterName, jobType, isMain, characterImageNo).stream()
         .map(resCharacterMapper::toDto)
         .collect(Collectors.toList());
   }
