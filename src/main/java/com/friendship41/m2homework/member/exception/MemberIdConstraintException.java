@@ -5,7 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import lombok.Getter;
 
 @Getter
-public class MemberIdConstraintException extends DataIntegrityViolationException implements BizException {
+public class MemberIdConstraintException extends DataIntegrityViolationException {
   private final String memberId;
 
   public MemberIdConstraintException(final String msg, final String memberId) {

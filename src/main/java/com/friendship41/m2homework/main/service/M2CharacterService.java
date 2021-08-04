@@ -1,7 +1,9 @@
 package com.friendship41.m2homework.main.service;
 
+import com.friendship41.m2homework.common.data.entity.ImageData;
 import com.friendship41.m2homework.main.data.entity.M2Character;
 import com.friendship41.m2homework.main.data.type.JobType;
+import com.friendship41.m2homework.main.exception.CharacterNotFoundException;
 import com.friendship41.m2homework.main.repository.M2CharacterRepository;
 import com.friendship41.m2homework.member.data.entity.Member;
 import com.friendship41.m2homework.member.exception.MemberNotFoundException;
@@ -49,5 +51,17 @@ public class M2CharacterService {
             "enName", jobType.getEnName(),
             "korName", jobType.getKorName())))
         .collect(Collectors.toList());
+  }
+
+  public M2Character updateCharacterImage(final int m2CharacterNo, final List<ImageData> imageDataList) {
+    M2Character m2Character = this.m2CharacterRepository.findById(m2CharacterNo)
+        .orElseThrow(() -> new CharacterNotFoundException(m2CharacterNo));
+
+    if (imageDataList == null || imageDataList.isEmpty()) {
+      return m2Character;
+    }
+
+    m2Character.setCharacterImageNo(imageDataList.get(0).getImageNo());
+    return m2Character;
   }
 }

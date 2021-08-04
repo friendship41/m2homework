@@ -3,7 +3,7 @@ package com.friendship41.m2homework.member.exception;
 import com.friendship41.m2homework.common.exception.BizException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-public class MemberNotFoundException extends UsernameNotFoundException implements BizException {
+public class MemberNotFoundException extends UsernameNotFoundException {
   public MemberNotFoundException(Integer memberNo) {
     super("member not found, memberNo: " + memberNo);
   }
