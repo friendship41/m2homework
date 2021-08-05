@@ -221,7 +221,7 @@
 <script src="/static/script/main.js"></script>
 </body>
 <script>
-    window.onload = function () {
+    window.addEventListener('load', function () {
         $.ajax({
             url: "/rest/character/job/list",
             method: "GET",
@@ -233,9 +233,8 @@
         }).fail(function (jqXHR,status,error) {
             commonAjaxFailConsoleLog(jqXHR,status,error)
         });
-
         refreshMainCharacterList();
-    };
+    });
 
     $("#characterAddForm").on('submit', function (event) {
         event.preventDefault();

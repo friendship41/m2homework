@@ -19,6 +19,7 @@ function profileToggle() {
 }
 
 
+
 /**
  * ### Modals ###
  */
@@ -50,4 +51,27 @@ if (document.querySelector('.modal-wrapper'))
     document.querySelectorAll('.close-modal').forEach(btn => {
         toggleModal('remove', btn);
     });
+}
+
+
+/**
+ * window load시 sidebar 설정
+ */
+window.addEventListener('load', function () {
+    let pathname = window.location.pathname;
+    clearAllSidebarSelectedEffect();
+    if (pathname === '/dashboard') {
+        document.getElementById("sb_li_dashboard").classList.add('bg-white');
+    }
+    else if (pathname === '/character/list') {
+        document.getElementById("sb_li_character_list").classList.add('bg-white');
+    } else if (pathname === '/homework/list') {
+        document.getElementById("sb_li_homework_list").classList.add('bg-white');
+    }
+});
+
+function clearAllSidebarSelectedEffect() {
+    document.getElementById("sb_li_dashboard").classList.remove('bg-white');
+    document.getElementById("sb_li_character_list").classList.remove('bg-white');
+    document.getElementById("sb_li_homework_list").classList.remove('bg-white');
 }
