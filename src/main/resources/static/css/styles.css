@@ -7029,6 +7029,10 @@ th {
   min-width: 0;
 }
 
+.min-w-12 {
+  min-width: 12rem;
+}
+
 .min-w-full {
   min-width: 100%;
 }

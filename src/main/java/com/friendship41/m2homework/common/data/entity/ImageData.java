@@ -26,6 +26,7 @@ public class ImageData {
   private String ext;
   private Long size;
   private Date createDate;
+  private String accessScopes;
 
   @PrePersist
   public void prePersist() {

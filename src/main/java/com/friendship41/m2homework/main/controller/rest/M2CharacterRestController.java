@@ -1,7 +1,9 @@
 package com.friendship41.m2homework.main.controller.rest;
 
 import com.friendship41.m2homework.common.data.entity.ImageData;
+import com.friendship41.m2homework.common.data.type.AccessScope;
 import com.friendship41.m2homework.common.service.ImageService;
+import com.friendship41.m2homework.common.util.AccessScopeUtil;
 import com.friendship41.m2homework.main.data.entity.M2Character;
 import com.friendship41.m2homework.main.data.request.ReqCharacter;
 import com.friendship41.m2homework.main.data.type.JobType;
@@ -57,7 +59,8 @@ public class M2CharacterRestController {
 
   @PostMapping("image")
   public Object postM2CharacterImage(final MultipartHttpServletRequest request) {
-    List<ImageData> imageDataList = this.imageService.saveImage(request.getFiles("characterImage"));
+    List<ImageData> imageDataList = this.imageService.saveImage(request.getFiles("characterImage"),
+        AccessScopeUtil.encodeAccessScopes(List.of(AccessScope.ANY)));
     int characterNo = Integer.parseInt(request.getParameter("characterNo"));
 
     return this.m2CharacterService.updateCharacterImage(characterNo, imageDataList);
