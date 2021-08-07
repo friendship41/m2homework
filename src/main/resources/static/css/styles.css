@@ -5809,6 +5809,38 @@ th {
   clear: both;
 }
 
+.font-notoSansKR-100 {
+  font-family: notoSansKR-100, sans-serif;
+}
+
+.font-notoSansKR-300 {
+  font-family: notoSansKR-300, sans-serif;
+}
+
+.font-notoSansKR-400 {
+  font-family: notoSansKR-400, sans-serif;
+}
+
+.font-notoSansKR-500 {
+  font-family: notoSansKR-500, sans-serif;
+}
+
+.font-notoSansKR-700 {
+  font-family: notoSansKR-700, sans-serif;
+}
+
+.font-notoSansKR-900 {
+  font-family: notoSansKR-900, sans-serif;
+}
+
+.font-jua {
+  font-family: jua, sans-serif;
+}
+
+.font-nanumPenScript {
+  font-family: nanumPenScript, sans-serif;
+}
+
 .font-sans {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }

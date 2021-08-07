@@ -75,3 +75,11 @@ function clearAllSidebarSelectedEffect() {
     document.getElementById("sb_li_character_list").classList.remove('bg-white');
     document.getElementById("sb_li_homework_list").classList.remove('bg-white');
 }
+
+
+/**
+ * Util function
+ */
+function isEmpty(value){
+    return value === "" || value == null || (typeof value == "object" && !Object.keys(value).length);
+}
