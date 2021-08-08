@@ -2,8 +2,10 @@ package com.friendship41.m2homework.member.data.entity;
 
 import com.friendship41.m2homework.auth.data.type.RoleType;
 import com.friendship41.m2homework.main.data.entity.M2Character;
+import com.friendship41.m2homework.main.data.entity.MemberHomework;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -39,6 +41,9 @@ public class Member {
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "memberNo")
   private Collection<M2Character> m2Characters;
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @JoinColumn(name = "memberNo")
+  private List<MemberHomework> memberHomeworkList;
 
   @PrePersist
   public void prePersist() {

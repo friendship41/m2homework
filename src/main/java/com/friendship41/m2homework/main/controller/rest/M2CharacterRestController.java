@@ -39,10 +39,10 @@ public class M2CharacterRestController {
 
   @GetMapping("list")
   public Object getM2CharacterList(
-      @RequestParam(name = "characterName", required = false) String characterName,
-      @RequestParam(name = "jobType", required = false) JobType jobType,
-      @RequestParam(name = "isMain", required = false) Boolean isMain,
-      @RequestParam(name = "characterImageNo", required = false) Integer characterImageNo) {
+      @RequestParam(name = "characterName", required = false) final String characterName,
+      @RequestParam(name = "jobType", required = false) final JobType jobType,
+      @RequestParam(name = "isMain", required = false) final Boolean isMain,
+      @RequestParam(name = "characterImageNo", required = false) final Integer characterImageNo) {
     int memberNo = (int) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     return this.m2CharacterService.getM2CharacterList(memberNo, characterName, jobType, isMain, characterImageNo).stream()
         .map(resCharacterMapper::toDto)
@@ -50,7 +50,7 @@ public class M2CharacterRestController {
   }
 
   @PostMapping
-  public Object postM2Character(@RequestBody ReqCharacter reqCharacter) {
+  public Object postM2Character(@RequestBody final ReqCharacter reqCharacter) {
     int memberNo = (int) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     M2Character m2Character = reqCharacterMapper.toDto(reqCharacter);
     m2Character.setMemberNo(memberNo);

@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/static/css/styles.css">
     <link rel="stylesheet" href="/static/css/all.css">
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>24길드 | 숙제 현황</title>
 </head>
 
@@ -38,29 +39,33 @@
                     <div class="font-jua flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
                         <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
                             <div class="font-notoSansKR-700 text-lg bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
-                                숙제 관리
+                                <span class="pr-2">내 개별 숙제 관리</span>
+                                <button data-modal='addHomeworkModal'
+                                        class="modal-trigger bg-blue-500 hover:bg-blue-800 text-white font-light py-1 px-2 rounded-full">
+                                    <i class="fas fa-plus-square px-1"></i><span class="px-1">추가</span>
+                                </button>
                             </div>
                             <div class="p-3">
                                 <table class="table-responsive w-full rounded">
                                     <thead>
                                     <tr>
-                                        <th class="border w-1/4 px-4 py-2">숙제</th>
-                                        <th class="border w-1/6 px-4 py-2">대상</th>
-                                        <th class="border w-1/6 px-4 py-2">단위 달성량</th>
-                                        <th class="border w-1/6 px-4 py-2">최대 달성량</th>
-                                        <th class="border w-1/7 px-4 py-2">초기화 단위</th>
-                                        <th class="border w-1/5 px-4 py-2">Actions</th>
+                                        <th class="border w-1/3 px-4 py-2">숙제</th>
+                                        <th class="border w-1/12 px-4 py-2">대상</th>
+                                        <th class="border w-1/12 px-4 py-2">단위 달성량</th>
+                                        <th class="border w-1/12 px-4 py-2">단위 초기화</th>
+                                        <th class="border w-1/12 px-4 py-2">최대 달성량</th>
+                                        <th class="border w-1/12 px-4 py-2">전체 초기화</th>
+                                        <th class="border w-1/4 px-4 py-2">-</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td class="border px-4 py-2">Micheal Clarke</td>
-                                        <td class="border px-4 py-2">Sydney</td>
-                                        <td class="border px-4 py-2">MS</td>
-                                        <td class="border px-4 py-2">900 $</td>
-                                        <td class="border px-4 py-2">
-                                            <i class="fas fa-check text-green-500 mx-2"></i>
-                                        </td>
+                                        <td class="border px-4 py-2">어둠의샘</td>
+                                        <td class="border px-4 py-2">계정</td>
+                                        <td class="border px-4 py-2">1</td>
+                                        <td class="border px-4 py-2">일일</td>
+                                        <td class="border px-4 py-2">3</td>
+                                        <td class="border px-4 py-2">매주 금</td>
                                         <td class="border px-4 py-2">
                                             <a class="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white">
                                                 <i class="fas fa-eye"></i></a>
@@ -72,13 +77,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td class="border px-4 py-2">Rickey Ponting</td>
-                                        <td class="border px-4 py-2">Sydney</td>
-                                        <td class="border px-4 py-2">MS</td>
-                                        <td class="border px-4 py-2">300 $</td>
-                                        <td class="border px-4 py-2">
-                                            <i class="fas fa-times text-red-500 mx-2"></i>
-                                        </td>
+                                        <td class="border px-4 py-2">바야르</td>
+                                        <td class="border px-4 py-2">캐릭</td>
+                                        <td class="border px-4 py-2">10</td>
+                                        <td class="border px-4 py-2">일일</td>
+                                        <td class="border px-4 py-2">30</td>
+                                        <td class="border px-4 py-2">매주 금</td>
                                         <td class="border px-4 py-2">
                                             <a class="bg-teal-300 cursor-pointer rounded p-1 mx-1 text-white">
                                                 <i class="fas fa-eye"></i></a>
@@ -106,7 +110,280 @@
     </div>
 
 </div>
+
+<!-- Centered With a Form Modal -->
+<div id='addHomeworkModal' class="modal-wrapper">
+    <div class="overlay close-modal"></div>
+    <div class="modal modal-centered">
+        <div class="modal-content shadow-lg p-5">
+            <div class="border-b p-2 pb-3 pt-0 mb-4">
+                <div class="flex justify-between items-center">
+                    숙제 추가
+                    <span class='close-modal cursor-pointer px-3 py-1 rounded-full bg-gray-100 hover:bg-gray-200'>
+                        <i class="fas fa-times text-gray-700"></i>
+                    </span>
+                </div>
+            </div>
+            <!-- Modal content -->
+            <form id='homeworkAddForm' class="w-full">
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="homeworkName">
+                            숙제 명
+                        </label>
+                        <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                id="homeworkName" name="homeworkName" type="text" placeholder="숙제 명" required="required">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="homeworkTargetTypeComboBox">
+                            대상
+                        </label>
+                        <div class="relative">
+                            <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="homeworkTargetTypeComboBox" name="homeworkTargetType">
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="unitGoal">
+                            단위 달성량
+                        </label>
+                        <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                               id="unitGoal" name="unitGoal" type="number" placeholder="단위 달성량" required="required">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="unitResetPeriodComboBox1">
+                            단위 초기화 기간1
+                        </label>
+                        <div class="relative">
+                            <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="unitResetPeriodComboBox1">
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1" for="unitResetPeriodComboBox2">
+                            단위 초기화 기간2
+                        </label>
+                        <div class="relative">
+                            <select
+                                    class="block appearance-none w-full bg-grey-darker border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="unitResetPeriodComboBox2" disabled="disabled">
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="maxGoal">
+                            최대 달성량
+                        </label>
+                        <input class="appearance-none block w-full bg-grey-200 text-grey-darker border border-grey-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                               id="maxGoal" name="maxGoal" type="number" placeholder="최대 달성량" required="required">
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                        <label class="block uppercase tracking-wide text-grey-darker text-xs font-light mb-1" for="allResetPeriodComboBox1">
+                            전체 초기화 기간1
+                        </label>
+                        <div class="relative">
+                            <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="allResetPeriodComboBox1">
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 px-3">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-light mb-1" for="allResetPeriodComboBox2">
+                            전체 초기화 기간2
+                        </label>
+                        <div class="relative">
+                            <select
+                                    class="block appearance-none w-full bg-grey-darker border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="allResetPeriodComboBox2" disabled="disabled">
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5">
+                    <button class='bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 rounded'
+                            type="submit">
+                        추가
+                    </button>
+                    <span class='close-modal cursor-pointer bg-red-200 hover:bg-red-500 text-red-900 font-bold py-2 px-4 rounded'>
+                        취소
+                    </span>
+                </div>
+                <input id="homeworkType" name="homeworkType" type="hidden", value="MAPLE_STORY_2">
+            </form>
+        </div>
+    </div>
+</div>
 <script src="/static/script/main.js"></script>
 </body>
+<script>
+    window.addEventListener('load', function () {
+        getHomeworkTargetTypeList(initHomeworkTargetTypeComboBox);
+        let unitResetPeriodComboBox1 = $("#unitResetPeriodComboBox1");
+        setPeriodComboBox1(unitResetPeriodComboBox1);
+        addPeriodComboBox2Listener(unitResetPeriodComboBox1, $("#unitResetPeriodComboBox2"));
+        let allResetPeriodComboBox1 = $("#allResetPeriodComboBox1");
+        setPeriodComboBox1(allResetPeriodComboBox1);
+        addPeriodComboBox2Listener(allResetPeriodComboBox1, $("#allResetPeriodComboBox2"));
+    });
 
+
+    $("#homeworkAddForm").on('submit', function (event) {
+        event.preventDefault();
+        postHomework(
+            $('#homeworkName').val(),
+            $('#homeworkType').val(),
+            $('#homeworkTargetType').val(),
+            $('#unitGoal').val(),
+            createPeriodData($('#unitResetPeriodComboBox1').val(), $('#unitResetPeriodComboBox2').val()),
+            $('#maxGoal').val(),
+            createPeriodData($('#allResetPeriodComboBox1').val(), $('#allResetPeriodComboBox2').val()),
+            function (res) {
+                clearAddHomeworkModalForm();
+                closeModal('addHomeworkModal');
+            }
+        );
+    });
+
+    function initHomeworkTargetTypeComboBox(homeworkTargetTypeList) {
+        for (let homeworkTargetType of homeworkTargetTypeList) {
+            $("#homeworkTargetTypeComboBox").append("<option value="+ homeworkTargetType.code +">" + homeworkTargetType.korName + "</option>");
+        }
+    }
+
+    function addPeriodComboBox2Listener(comboBox1, comboBox2) {
+        comboBox1.on('change', function () {
+            setPeriodComboBox2(comboBox1, comboBox2);
+        });
+    }
+
+    function setPeriodComboBox1(comboBox1) {
+        comboBox1.append("<option value=none>없음</option>");
+        comboBox1.append("<option value=day>매일</option>");
+        comboBox1.append("<option value=week>매주</otion>");
+        comboBox1.append("<option value=month>매월</option>");
+    }
+
+    function setPeriodComboBox2(comboBox1, comboBox2) {
+        comboBox2.empty();
+        if ('disabled' === comboBox2.attr('disabled')) {
+            comboBox2.removeAttr('disabled');
+            comboBox2.removeClass('bg-grey-darker');
+        }
+        let box1Val = comboBox1.val();
+        if (box1Val === 'none') {
+            comboBox2.addClass('bg-grey-darker');
+            comboBox2.attr('disabled', 'disabled');
+        } else if (box1Val === 'day') {
+            comboBox2.addClass('bg-grey-darker');
+            comboBox2.attr('disabled', 'disabled');
+        } else if (box1Val === 'week') {
+            comboBox2.append("<option value=monday>월요일</otion>");
+            comboBox2.append("<option value=tuesday>화요일</otion>");
+            comboBox2.append("<option value=wednesday>수요일</otion>");
+            comboBox2.append("<option value=thursday>목요일</otion>");
+            comboBox2.append("<option value=friday>금요일</otion>");
+            comboBox2.append("<option value=saturday>토요일</otion>");
+            comboBox2.append("<option value=sunday>일요일</otion>");
+        } else if (box1Val === 'month') {
+            let i;
+            for (i = 1; i < 31; i++) {
+                comboBox2.append("<option value="+i+">"+i+"일</otion>");
+            }
+        }
+    }
+
+    function createPeriodData(box1Val, box2Val) {
+        if (box1Val === 'none') {
+            return 'n';
+        } else if (box1Val === 'day') {
+            return 'd';
+        } else if (box1Val === 'week') {
+            return 'w_' + box2Val;
+        } else {
+            return 'm_' + box2Val;
+        }
+    }
+
+    function clearAddHomeworkModalForm() {
+        $('#homeworkName').val('');
+        $('#unitGoal').val('');
+        $('#maxGoal').val('');
+    }
+
+
+
+    function getHomeworkTargetTypeList(doneCallback) {
+        $.ajax({
+            url: "/rest/homework/targetType/list",
+            method: "GET",
+            dataType: "json"
+        }).done(doneCallback).fail(function (jqXHR,status,error) {
+            commonAjaxFailConsoleLog(jqXHR,status,error);
+        })
+    }
+
+    function postHomework(
+        homeworkName, homeworkType, homeworkTargetType, unitGoal, unitResetPeriod, maxGoal, allResetPeriod, doneCallback) {
+        let reqPostHomework = {};
+        reqPostHomework.homeworkName = homeworkName;
+        reqPostHomework.homeworkType = homeworkType;
+        reqPostHomework.homeworkTargetType = homeworkTargetType;
+        reqPostHomework.unitGoal = unitGoal;
+        reqPostHomework.unitResetPeriod = unitResetPeriod;
+        reqPostHomework.maxGoal = maxGoal;
+        reqPostHomework.allResetPeriod = allResetPeriod;
+        $.ajax({
+            url: "/rest/homework",
+            method: "POST",
+            dataType: "json",
+            contentType: "application/json;charset=utf-8",
+            data: JSON.stringify(reqPostHomework)
+        }).done(doneCallback).fail(function (jqXHR,status,error) {
+            commonAjaxFailConsoleLog(jqXHR,status,error);
+        })
+    }
+</script>
 </html>

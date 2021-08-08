@@ -83,3 +83,14 @@ function clearAllSidebarSelectedEffect() {
 function isEmpty(value){
     return value === "" || value == null || (typeof value == "object" && !Object.keys(value).length);
 }
+
+function commonAjaxFailConsoleLog(jqXHR,status,error) {
+    console.log(jqXHR);
+    console.log(status);
+    console.log(error);
+    alert("에러발생! 8ㅅ8....")
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('modal-is-open');
+}

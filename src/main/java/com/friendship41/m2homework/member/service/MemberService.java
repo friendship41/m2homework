@@ -5,7 +5,6 @@ import com.friendship41.m2homework.member.exception.MemberIdConstraintException;
 import com.friendship41.m2homework.member.exception.MemberNotFoundException;
 import com.friendship41.m2homework.member.repository.MemberRepository;
 import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

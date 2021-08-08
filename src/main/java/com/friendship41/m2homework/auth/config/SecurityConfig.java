@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
   private final CommonsRequestLoggingFilter commonsRequestLoggingFilter;
 
   private final String[] URL_WHITELIST = {
-      "/login/**", "/static/**", "/templates/**", "/register", "/open/api/**"
+      "/login/**", "/static/**", "/templates/**", "/register", "/open/api/**", "/temp/**"
   };
 
   @Override
