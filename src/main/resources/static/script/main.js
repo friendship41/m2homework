@@ -88,7 +88,8 @@ function commonAjaxFailConsoleLog(jqXHR,status,error) {
     console.log(jqXHR);
     console.log(status);
     console.log(error);
-    alert("에러발생! 8ㅅ8....")
+    alert("에러발생! 8ㅅ8....");
+    window.location.reload();
 }
 
 function closeModal(modalId) {

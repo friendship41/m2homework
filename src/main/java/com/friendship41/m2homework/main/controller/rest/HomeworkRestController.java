@@ -1,12 +1,11 @@
 package com.friendship41.m2homework.main.controller.rest;
 
 import com.friendship41.m2homework.main.data.entity.Homework;
-import com.friendship41.m2homework.main.data.entity.MemberHomework;
 import com.friendship41.m2homework.main.data.request.ReqHomework;
 import com.friendship41.m2homework.main.mapper.ReqHomeworkMapper;
 import com.friendship41.m2homework.main.mapper.ResHomeworkMapper;
 import com.friendship41.m2homework.main.service.HomeworkService;
-import com.friendship41.m2homework.member.data.entity.Member;
+import java.util.stream.Collectors;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,5 +33,13 @@ public class HomeworkRestController {
   @GetMapping("targetType/list")
   public Object getHomeworkTargetTypeList() {
     return this.homeworkService.getHomeworkTargetTypeList();
+  }
+
+  @GetMapping
+  public Object getHomeworkList() {
+    int memberNo = (int) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    return this.homeworkService.getHomeworkListByMember(memberNo).stream()
+        .map(this.resHomeworkMapper::toDto)
+        .collect(Collectors.toList());
   }
 }
