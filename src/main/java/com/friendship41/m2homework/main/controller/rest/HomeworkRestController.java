@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
@@ -36,10 +37,12 @@ public class HomeworkRestController {
   }
 
   @GetMapping
-  public Object getHomeworkList() {
+  public Object getHomeworkList(
+      @RequestParam(required = false, defaultValue = "0") final Integer page,
+      @RequestParam(required = false, defaultValue = "10") final Integer size) {
     int memberNo = (int) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    return this.homeworkService.getHomeworkListByMember(memberNo).stream()
-        .map(this.resHomeworkMapper::toDto)
-        .collect(Collectors.toList());
+    return this.homeworkService
+        .getHomeworkListByMember(memberNo, page, size)
+        .map(this.resHomeworkMapper::toDto);
   }
 }

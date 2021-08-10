@@ -35,7 +35,7 @@
             <!--Main-->
             <main class="bg-white-500 flex-1 p-3 overflow-hidden">
                 <div class="flex flex-col">
-                    <!--Grid Form-->
+                    <!--개별 숙제 관리 테이블-->
                     <div class="font-jua flex flex-1  flex-col md:flex-row lg:flex-row mx-2">
                         <div class="mb-2 border-solid border-gray-300 rounded border shadow-sm w-full">
                             <div class="font-notoSansKR-700 text-lg bg-gray-200 px-2 py-3 border-solid border-gray-200 border-b">
@@ -62,9 +62,21 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="p-3">
+                                <div id="myHomeworkNavi" class="flex flex-row items-center justify-center">
+                                    <button class="bg-teal-200 hover:bg-teal-500 text-teal-900 font-bold py-2 px-4 rounded-l"
+                                            id="myHomeworkPrevBtn" onclick="getMyhomeworkByPageNum(-2)">
+                                        Prev
+                                    </button>
+                                    <button class="bg-teal-200 hover:bg-teal-500 text-teal-900 font-bold py-2 px-4 rounded-r"
+                                            id="myHomeworkNextBtn" onclick="getMyhomeworkByPageNum(-1)">
+                                        Next
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <!--/Grid Form-->
+                    <!--/개별 숙제 관리 테이블-->
                 </div>
             </main>
             <!--/Main-->
@@ -225,6 +237,10 @@
 <script src="/static/script/main.js"></script>
 </body>
 <script>
+    let currentHomeworkPage = 0;
+    let totalPageNum = 0;
+    const defaultHomeworkPageSize = 2;
+
     window.addEventListener('load', function () {
         getHomeworkTargetTypeList(initHomeworkTargetTypeComboBox);
         let unitResetPeriodComboBox1 = $("#unitResetPeriodComboBox1");
@@ -234,104 +250,21 @@
         setPeriodComboBox1(allResetPeriodComboBox1);
         addPeriodComboBox2Listener(allResetPeriodComboBox1, $("#allResetPeriodComboBox2"));
 
-        refreshMyHomeworkList();
+        refreshMyHomeworkList(currentHomeworkPage);
     });
 
 
-    $("#homeworkAddForm").on('submit', function (event) {
-        event.preventDefault();
-        postHomework(
-            $('#homeworkName').val(),
-            $('#homeworkType').val(),
-            $('#homeworkTargetTypeComboBox option:selected').val(),
-            $('#unitGoal').val(),
-            createPeriodData($('#unitResetPeriodComboBox1 option:selected').val(), $('#unitResetPeriodComboBox2 option:selected').val()),
-            $('#maxGoal').val(),
-            createPeriodData($('#allResetPeriodComboBox1 option:selected').val(), $('#allResetPeriodComboBox2 option:selected').val()),
-            function (res) {
-                console.log(res);
-                clearAddHomeworkModalForm();
-                closeModal('addHomeworkModal');
-                refreshMyHomeworkList();
-            }
-        );
-    });
-
-    function initHomeworkTargetTypeComboBox(homeworkTargetTypeList) {
-        for (let homeworkTargetType of homeworkTargetTypeList) {
-            $("#homeworkTargetTypeComboBox").append("<option value="+ homeworkTargetType.code +">" + homeworkTargetType.korName + "</option>");
-        }
-    }
-
-    // TODO: 페이징처리
-    function refreshMyHomeworkList() {
+    // homeworkList 관련
+    function refreshMyHomeworkList(page) {
         let myHomeworkTableBody = $('#myHomeworkTableBody');
         myHomeworkTableBody.empty();
-        getMyHomeworkList(function (res) {
-            for (let homework of res) {
+        getMyHomeworkList(page, function (res) {
+            console.log(res);
+            for (let homework of res.content) {
                 myHomeworkTableBody.append(createMyHomeworkTableRowHTML(homework));
             }
+            createMyHomeworkPageNavi(res);
         });
-    }
-
-    function addPeriodComboBox2Listener(comboBox1, comboBox2) {
-        comboBox1.on('change', function () {
-            setPeriodComboBox2(comboBox1, comboBox2);
-        });
-    }
-
-    function setPeriodComboBox1(comboBox1) {
-        comboBox1.append("<option value=none>없음</option>");
-        comboBox1.append("<option value=day>매일</option>");
-        comboBox1.append("<option value=week>매주</otion>");
-        comboBox1.append("<option value=month>매월</option>");
-    }
-
-    function setPeriodComboBox2(comboBox1, comboBox2) {
-        comboBox2.empty();
-        if ('disabled' === comboBox2.attr('disabled')) {
-            comboBox2.removeAttr('disabled');
-            comboBox2.removeClass('bg-grey-darker');
-        }
-        let box1Val = comboBox1.val();
-        if (box1Val === 'none') {
-            comboBox2.addClass('bg-grey-darker');
-            comboBox2.attr('disabled', 'disabled');
-        } else if (box1Val === 'day') {
-            comboBox2.addClass('bg-grey-darker');
-            comboBox2.attr('disabled', 'disabled');
-        } else if (box1Val === 'week') {
-            comboBox2.append("<option value=monday>월요일</otion>");
-            comboBox2.append("<option value=tuesday>화요일</otion>");
-            comboBox2.append("<option value=wednesday>수요일</otion>");
-            comboBox2.append("<option value=thursday>목요일</otion>");
-            comboBox2.append("<option value=friday>금요일</otion>");
-            comboBox2.append("<option value=saturday>토요일</otion>");
-            comboBox2.append("<option value=sunday>일요일</otion>");
-        } else if (box1Val === 'month') {
-            let i;
-            for (i = 1; i < 31; i++) {
-                comboBox2.append("<option value="+i+">"+i+"일</otion>");
-            }
-        }
-    }
-
-    function createPeriodData(box1Val, box2Val) {
-        if (box1Val === 'none') {
-            return 'n';
-        } else if (box1Val === 'day') {
-            return 'd';
-        } else if (box1Val === 'week') {
-            return 'w_' + box2Val;
-        } else {
-            return 'm_' + box2Val;
-        }
-    }
-
-    function clearAddHomeworkModalForm() {
-        $('#homeworkName').val('');
-        $('#unitGoal').val('');
-        $('#maxGoal').val('');
     }
 
     function createMyHomeworkTableRowHTML(homework) {
@@ -353,7 +286,6 @@
         html += '<td class="border px-4 py-2">'+convertPeriodCodeToText(homework.allResetPeriod)+'</td>';
         html += '<td class="border px-4 py-2"></td>';
 
-        console.log(html);
         return html;
     }
 
@@ -397,7 +329,144 @@
         }
     }
 
+    function createMyHomeworkPageNavi(pageable) {
+        totalPageNum = pageable.totalPages;
+        currentHomeworkPage = pageable.number;
 
+        $('#myHomeworkNavi').children().remove('.rounded-l-none');
+
+        let page;
+        for (page = pageable.totalPages; page > 0; page--) {
+            $('#myHomeworkPrevBtn').after(createMyHomeworkPageBtnHTML(page, pageable.number))
+        }
+    }
+
+    function createMyHomeworkPageBtnHTML(page, currentNumber) {
+        let html = '<button class="';
+        if (page === currentNumber+1) {
+            html += 'bg-teal-400';
+        } else {
+            html += 'bg-teal-200';
+        }
+        html += ' hover:bg-teal-500 text-teal-900 font-bold py-2 px-4 rounded-l-none" id="myHomeworkPageBtn';
+        html += page;
+        html += '" onclick="getMyhomeworkByPageNum(';
+        html += page;
+        html += ')">';
+        html += page;
+        html += '</button>';
+        return html;
+    }
+
+    function getMyhomeworkByPageNum(page) {
+        if (page === -2) {
+            if (currentHomeworkPage === 0) {
+                return;
+            }
+            currentHomeworkPage -= 1;
+        } else if (page === -1) {
+            if (currentHomeworkPage+1 === totalPageNum) {
+                return;
+            }
+            currentHomeworkPage += 1;
+        } else {
+            currentHomeworkPage = page-1;
+        }
+        refreshMyHomeworkList(currentHomeworkPage);
+    }
+
+
+
+
+    // 숙제추가 모달 관련
+    $("#homeworkAddForm").on('submit', function (event) {
+        event.preventDefault();
+        postHomework(
+            $('#homeworkName').val(),
+            $('#homeworkType').val(),
+            $('#homeworkTargetTypeComboBox option:selected').val(),
+            $('#unitGoal').val(),
+            createPeriodData($('#unitResetPeriodComboBox1 option:selected').val(), $('#unitResetPeriodComboBox2 option:selected').val()),
+            $('#maxGoal').val(),
+            createPeriodData($('#allResetPeriodComboBox1 option:selected').val(), $('#allResetPeriodComboBox2 option:selected').val()),
+            function (res) {
+                console.log(res);
+                clearAddHomeworkModalForm();
+                closeModal('addHomeworkModal');
+                refreshMyHomeworkList(currentHomeworkPage);
+            }
+        );
+    });
+
+    function initHomeworkTargetTypeComboBox(homeworkTargetTypeList) {
+        for (let homeworkTargetType of homeworkTargetTypeList) {
+            $("#homeworkTargetTypeComboBox").append("<option value="+ homeworkTargetType.code +">" + homeworkTargetType.korName + "</option>");
+        }
+    }
+
+    function addPeriodComboBox2Listener(comboBox1, comboBox2) {
+        comboBox1.on('change', function () {
+            setPeriodComboBox2(comboBox1, comboBox2);
+        });
+    }
+
+    function setPeriodComboBox1(comboBox1) {
+        comboBox1.append("<option value=none>없음</option>");
+        comboBox1.append("<option value=day>매일</option>");
+        comboBox1.append("<option value=week>매주</otion>");
+        comboBox1.append("<option value=month>매월</option>");
+    }
+
+    function setPeriodComboBox2(comboBox1, comboBox2) {
+        comboBox2.empty();
+        if ('disabled' === comboBox2.attr('disabled')) {
+            comboBox2.removeAttr('disabled');
+            comboBox2.removeClass('bg-grey-darker');
+        }
+        let box1Val = comboBox1.val();
+        if (box1Val === 'none') {
+            comboBox2.addClass('bg-grey-darker');
+            comboBox2.attr('disabled', 'disabled');
+        } else if (box1Val === 'day') {
+            comboBox2.addClass('bg-grey-darker');
+            comboBox2.attr('disabled', 'disabled');
+        } else if (box1Val === 'week') {
+            comboBox2.append("<option value=monday>월요일</otion>");
+            comboBox2.append("<option value=tuesday>화요일</otion>");
+            comboBox2.append("<option value=wednesday>수요일</otion>");
+            comboBox2.append("<option value=thursday>목요일</otion>");
+            comboBox2.append("<option value=friday>금요일</otion>");
+            comboBox2.append("<option value=saturday>토요일</otion>");
+            comboBox2.append("<option value=sunday>일요일</otion>");
+        } else if (box1Val === 'month') {
+            let i;
+            for (i = 1; i <= 31; i++) {
+                comboBox2.append("<option value="+i+">"+i+"일</otion>");
+            }
+        }
+    }
+
+    function createPeriodData(box1Val, box2Val) {
+        if (box1Val === 'none') {
+            return 'n';
+        } else if (box1Val === 'day') {
+            return 'd';
+        } else if (box1Val === 'week') {
+            return 'w_' + box2Val;
+        } else {
+            return 'm_' + box2Val;
+        }
+    }
+
+    function clearAddHomeworkModalForm() {
+        $('#homeworkName').val('');
+        $('#unitGoal').val('');
+        $('#maxGoal').val('');
+    }
+
+
+
+    // ajax
     function getHomeworkTargetTypeList(doneCallback) {
         $.ajax({
             url: "/rest/homework/targetType/list",
@@ -408,9 +477,9 @@
         })
     }
 
-    function getMyHomeworkList(doneCallback) {
+    function getMyHomeworkList(page, doneCallback) {
         $.ajax({
-            url: "/rest/homework",
+            url: "/rest/homework?size="+defaultHomeworkPageSize+"&page="+page,
             method: "GET",
             dataType: "json"
         }).done(doneCallback).fail(function (jqXHR,status,error) {
