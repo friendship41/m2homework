@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -40,9 +43,10 @@ public class M2CharacterService {
         .getM2Characters());
   }
 
-  public List<M2Character> getM2CharacterList(final Integer memberNo, final String characterName, final JobType jobType,
-      final Boolean isMain, final Integer characterImageNo) {
-    return this.m2CharacterRepository.findByDynamicQuery(memberNo, characterName, jobType, isMain, characterImageNo);
+  public Page<M2Character> getM2CharacterList(final Integer memberNo, final String characterName, final JobType jobType,
+      final Boolean isMain, final Integer characterImageNo, final Integer page, final Integer size, final String sort) {
+    return this.m2CharacterRepository.findByDynamicQuery(memberNo, characterName, jobType, isMain, characterImageNo,
+        PageRequest.of(page, size, Sort.by(sort)));
   }
 
   public List<Map<String, Object>> getJobTypeList() {

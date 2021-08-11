@@ -95,3 +95,46 @@ function commonAjaxFailConsoleLog(jqXHR,status,error) {
 function closeModal(modalId) {
     document.getElementById(modalId).classList.remove('modal-is-open');
 }
+
+function createParamStr(paramList) {
+    if (paramList === null || paramList.length === 0) {
+        return "";
+    }
+    let paramStr = "?";
+    for (let param of paramList) {
+        paramStr += param;
+        paramStr += "&"
+    }
+    return paramStr.substr(0, paramStr.length - 1);
+}
+
+// Navigation 숫자버튼만드는 공통 함수
+function createPageNavi(pageable, naviObj, prevBtnObj, pageBtnId) {
+    totalPageNum = pageable.totalPages;
+    currentHomeworkPage = pageable.number;
+
+    naviObj.children().remove('.rounded-l-none');
+
+    let page;
+    for (page = pageable.totalPages; page > 0; page--) {
+        prevBtnObj.after(createPageBtnHTML(page, pageable.number, pageBtnId))
+    }
+}
+
+function createPageBtnHTML(page, currentNumber, pageBtnId) {
+    let html = '<button class="';
+    if (page === currentNumber+1) {
+        html += 'bg-teal-400';
+    } else {
+        html += 'bg-teal-200';
+    }
+    html += ' hover:bg-teal-500 text-teal-900 font-bold py-2 px-4 rounded-l-none" id="';
+    html += pageBtnId;
+    html += page;
+    html += '" onclick="get' + pageBtnId + 'ByPageNum(';
+    html += page;
+    html += ')">';
+    html += page;
+    html += '</button>';
+    return html;
+}

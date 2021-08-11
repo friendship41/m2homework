@@ -42,11 +42,14 @@ public class M2CharacterRestController {
       @RequestParam(name = "characterName", required = false) final String characterName,
       @RequestParam(name = "jobType", required = false) final JobType jobType,
       @RequestParam(name = "isMain", required = false) final Boolean isMain,
-      @RequestParam(name = "characterImageNo", required = false) final Integer characterImageNo) {
+      @RequestParam(name = "characterImageNo", required = false) final Integer characterImageNo,
+      @RequestParam(name = "page", required = false, defaultValue = "0") final Integer page,
+      @RequestParam(name = "size", required = false, defaultValue = "10") final Integer size,
+      @RequestParam(name = "sort", required = false, defaultValue = "ASC") final String sort) {
     int memberNo = (int) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    return this.m2CharacterService.getM2CharacterList(memberNo, characterName, jobType, isMain, characterImageNo).stream()
-        .map(resCharacterMapper::toDto)
-        .collect(Collectors.toList());
+    return this.m2CharacterService
+        .getM2CharacterList(memberNo, characterName, jobType, isMain, characterImageNo, page, size, sort)
+        .map(resCharacterMapper::toDto);
   }
 
   @PostMapping

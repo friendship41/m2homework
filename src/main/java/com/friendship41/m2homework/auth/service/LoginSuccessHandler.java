@@ -18,6 +18,6 @@ public class LoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessH
       final Authentication authentication) throws IOException {
     SecurityContextHolder.getContext().setAuthentication(authentication);
     this.memberService.memberlogin(Integer.parseInt(authentication.getPrincipal().toString()));
-    response.sendRedirect("/homework/list");
+    response.sendRedirect("/character/list");
   }
 }

@@ -259,7 +259,6 @@
         let myHomeworkTableBody = $('#myHomeworkTableBody');
         myHomeworkTableBody.empty();
         getMyHomeworkList(page, function (res) {
-            console.log(res);
             for (let homework of res.content) {
                 myHomeworkTableBody.append(createMyHomeworkTableRowHTML(homework));
             }
@@ -284,7 +283,7 @@
         html += '<td class="border px-4 py-2">'+convertPeriodCodeToText(homework.unitResetPeriod)+'</td>';
         html += '<td class="border px-4 py-2">'+homework.maxGoal+'</td>';
         html += '<td class="border px-4 py-2">'+convertPeriodCodeToText(homework.allResetPeriod)+'</td>';
-        html += '<td class="border px-4 py-2"></td>';
+        html += '<td class="border px-4 py-2"></td></tr>';
 
         return html;
     }
@@ -390,7 +389,6 @@
             $('#maxGoal').val(),
             createPeriodData($('#allResetPeriodComboBox1 option:selected').val(), $('#allResetPeriodComboBox2 option:selected').val()),
             function (res) {
-                console.log(res);
                 clearAddHomeworkModalForm();
                 closeModal('addHomeworkModal');
                 refreshMyHomeworkList(currentHomeworkPage);
