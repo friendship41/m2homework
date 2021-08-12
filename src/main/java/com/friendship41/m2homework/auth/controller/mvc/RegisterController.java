@@ -26,7 +26,14 @@ public class RegisterController {
   public String postRegister(
       @RequestParam("memberId") final String memberId,
       @RequestParam("password") final String password,
+      @RequestParam("guildFoundingDate") final String guildFoundingDate,
       final Model model) {
+    if (!"20160620".equals(guildFoundingDate)) {
+      model.addAttribute("errorCode", "500");
+      model.addAttribute("memberId", memberId);
+      model.addAttribute("errorMessage", "길드 창립일이 틀렸습니다.");
+      return "auth/register";
+    }
     try {
       this.memberService.insertMember(Member.builder()
           .memberId(memberId)
@@ -36,6 +43,7 @@ public class RegisterController {
     } catch (MemberIdConstraintException e) {
       model.addAttribute("errorCode", "500");
       model.addAttribute("memberId", e.getMemberId());
+      model.addAttribute("errorMessage", e.getMemberId() + "는\\n중복된 아이디입니다!");
       return "auth/register";
     }
   }
