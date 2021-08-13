@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="kor"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="keywords" content="tailwind,tailwindcss,tailwind css,css,starter template,free template,admin templates, admin template, admin dashboard, free tailwind templates, tailwind example">
+    <!-- Css -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/all.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <title>24길드 | 캐릭터 숙제 세팅</title>
+</head>
+
+<body>
+<!--Container -->
+<div class="mx-auto bg-grey-400">
+    <!--Screen-->
+    <div class="min-h-screen flex flex-col">
+        <!--Header Section Starts Here-->
+        <header class="bg-nav">
+            <div th:replace="~{frag/header::header}"></div>
+        </header>
+        <!--/Header-->
+
+        <div class="flex flex-1">
+            <!--Sidebar-->
+            <aside th:replace="~{frag/sidebar::sidebar}"></aside>
+            <!--/Sidebar-->
+            <!--Main-->
+            <main class="bg-white-300 flex-1 p-3 overflow-hidden">
+                <div class="flex flex-col">
+                    <div class="w-full px-4">
+                        <label class="font-jua block uppercase tracking-wide text-grey-darker text-2xl font-light mb-1"
+                               for="characerComboBox">
+                            캐릭터 선택
+                        </label>
+                        <div class="relative">
+                            <select class="block appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                    id="characerComboBox">
+                            </select>
+                            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-grey-darker">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-1 flex-col md:flex-row lg:flex-row mt-5 px-3">
+                        <div class="font-jua mx-1 mb-2 border-solid border-grey-light rounded border shadow-sm w-full md:w-1/2 lg:w-1/2">
+                            <div class="bg-gray-300 text-xl px-2 py-3 border-solid border-gray-400 border-b">
+                                적용된 숙제
+                            </div>
+                            <div class="p-3">
+                                <div class="relative">
+                                    <select
+                                            class="h-64 block text-xl appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                            size="10" id="characterHomeworkSelectList">
+                                    </select>
+                                </div>
+                                <div class="flex flex-row items-center justify-center pt-3">
+                                    <button class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-800 rounded"
+                                            onclick="removeCharacterHomework()">
+                                        적용 취소
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="font-jua mx-1 mb-2 border-solid border-grey-light rounded border shadow-sm w-full md:w-1/2 lg:w-1/2">
+                            <div class="bg-gray-300 text-xl px-2 py-3 border-solid border-gray-400 border-b">
+                                전체 숙제 리스트
+                            </div>
+                            <div class="p-3">
+                                <div class="relative">
+                                    <select
+                                            class="h-64 block text-xl appearance-none w-full bg-grey-200 border border-grey-200 text-grey-darker py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-grey"
+                                            size="10" id="memberHomeworkSelectList">
+                                    </select>
+                                </div>
+                                <div class="flex flex-row items-center justify-center pt-3">
+                                    <button class="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 border border-green-800 rounded"
+                                            onclick="addToCharacterHomework()">
+                                        캐릭에 적용
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <!--/Main-->
+        </div>
+        <!--Footer-->
+        <footer th:replace="~{frag/footer}"></footer>
+        <!--/footer-->
+
+    </div>
+
+</div>
+
+
+
+<script src="/static/script/main.js"></script>
+<script src="/static/script/reqServerModule.js"></script>
+</body>
+<script>
+    const defaultListPage = 0;
+    const defaultListSize = 200;
+    let currentCharacterNo = 0;
+    let characterList = [];
+    let characterHomeworkList = [];
+    let memberHomeworkList = [];
+
+    window.addEventListener('load', function () {
+        // 콤보박스 refresh 후 자동으로 캐릭터에 적용된 숙제 리스트 refresh 호출
+        // 캐릭터 숙제 리스트 refresh 후 전체 숙제리스트 refresh 호출
+        refreshCharacterComboBox();
+    });
+
+    $('#characerComboBox').change(function () {
+        currentCharacterNo = this.value;
+        refreshCharacterHomeworkList(this.value);
+    })
+
+
+    /*
+     * 캐릭터 선택 콤보박스 관련
+     * 1. characterList 조회
+     * 2. 케릭터 선택 콤보박스 세팅
+     * 3. 적용된 숙제 리스트 세팅 함수 콜
+     */
+    function refreshCharacterComboBox() {
+        getCharacterList(null, defaultListPage, defaultListSize, 'ASC', function (res) {
+            console.log(res);
+            let characerComboBox = $('#characerComboBox');
+            characerComboBox.empty();
+            for (let character of res.content) {
+                characerComboBox.append(createCharacterComboBoxItem(character));
+            }
+            if (!isEmpty(res.content)) {
+                characterList = res.content;
+                currentCharacterNo = characterList[0].characterNo;
+                refreshCharacterHomeworkList(characterList[0].characterNo);
+            }
+        });
+    }
+
+    function createCharacterComboBoxItem(character) {
+        return $('<option>', {
+            value: character.characterNo,
+            text: character.characterName
+        });
+    }
+
+
+    /*
+     * 케릭터별 적용된 숙제 리스트 관련
+     */
+    function refreshCharacterHomeworkList(characterNo) {
+        getCharacterHomeworkList(characterNo, defaultListPage, defaultListSize, function (res) {
+            console.log(res);
+            let characterHomeworkSelectList = $('#characterHomeworkSelectList');
+            characterHomeworkSelectList.empty();
+            if (isEmpty(res.content)) {
+                refreshMemberHomeworkList();
+                characterHomeworkList = [];
+                return;
+            }
+            characterHomeworkList = res.content;
+            characterHomeworkList
+                .forEach(function (homework) {
+                    characterHomeworkSelectList.append(createCharacterHomeworkSelectListItem(homework));
+                })
+            refreshMemberHomeworkList();
+        });
+    }
+
+    function createCharacterHomeworkSelectListItem(homework) {
+        return $('<option>', {
+            value: homework.homeworkNo,
+            text: homework.homeworkName
+        });
+    }
+
+    function isExistCharacterHomework(homeworkNo) {
+        for (let homework of characterHomeworkList) {
+            if (homework.homeworkNo === homeworkNo) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function removeCharacterHomework() {
+        let selectedCharacterHomeworkNo = $('#characterHomeworkSelectList option:selected').val();
+        if (isEmpty(selectedCharacterHomeworkNo)) {
+            alert("제거할 숙제를 선택해주세요!");
+            return;
+        }
+        if (currentCharacterNo === 0) {
+            alert("캐릭터를 다시 선택해주세요!");
+            return;
+        }
+        deleteCharacterHomework(currentCharacterNo, selectedCharacterHomeworkNo, function (res) {
+            console.log(res);
+            refreshCharacterHomeworkList(currentCharacterNo);
+        });
+    }
+
+
+    /*
+     * 전체 숙제리스트 관련
+     */
+    function refreshMemberHomeworkList() {
+        getMemberHomeworkList(defaultListPage, defaultListSize, function (res) {
+            console.log(res);
+            let memberHomeworkSelectList = $('#memberHomeworkSelectList');
+            memberHomeworkSelectList.empty();
+            if (isEmpty(res.content)) {
+                alert("사용가능한 숙제가 없습니다!");
+                return;
+            }
+            memberHomeworkList = res.content;
+            memberHomeworkList
+                .filter(function (homework) {
+                    return !isExistCharacterHomework(homework.homeworkNo);
+                })
+                .forEach(function (homework) {
+                    memberHomeworkSelectList.append(createMemberHomeworkSelectListItem(homework));
+                })
+        })
+    }
+
+    function createMemberHomeworkSelectListItem(homework) {
+        return $('<option>', {
+            value: homework.homeworkNo,
+            text: homework.homeworkName
+        });
+    }
+
+    // 캐릭터로 숙제 추가
+    function addToCharacterHomework() {
+        let selectedMemberHomeworkNo = $('#memberHomeworkSelectList option:selected').val();
+        if (isEmpty(selectedMemberHomeworkNo)) {
+            alert("추가할 숙제를 선택해주세요!");
+            return;
+        }
+        if (currentCharacterNo === 0) {
+            alert("캐릭터를 다시 선택해주세요!");
+            return;
+        }
+        postCharacterHomework(currentCharacterNo, selectedMemberHomeworkNo, function (res) {
+           console.log(res);
+           refreshCharacterHomeworkList(currentCharacterNo);
+        });
+    }
+
+</script>
+</html>

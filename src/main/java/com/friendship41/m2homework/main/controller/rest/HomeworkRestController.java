@@ -1,12 +1,13 @@
 package com.friendship41.m2homework.main.controller.rest;
 
 import com.friendship41.m2homework.main.data.entity.Homework;
+import com.friendship41.m2homework.main.data.request.ReqCharacterHomework;
 import com.friendship41.m2homework.main.data.request.ReqHomework;
 import com.friendship41.m2homework.main.mapper.ReqHomeworkMapper;
 import com.friendship41.m2homework.main.mapper.ResHomeworkMapper;
 import com.friendship41.m2homework.main.service.HomeworkService;
-import java.util.stream.Collectors;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +32,14 @@ public class HomeworkRestController {
     return this.resHomeworkMapper.toDto(homework);
   }
 
+  @PostMapping("character")
+  public Object postHomeworkCharacter(@RequestBody final ReqCharacterHomework reqCharacterHomework) {
+    Homework homework = this.homeworkService
+        .insertM2CharacterHomework(reqCharacterHomework.getCharacterNo(), reqCharacterHomework.getHomeworkNo())
+        .getHomework();
+    return this.resHomeworkMapper.toDto(homework);
+  }
+
   @GetMapping("targetType/list")
   public Object getHomeworkTargetTypeList() {
     return this.homeworkService.getHomeworkTargetTypeList();
@@ -44,5 +53,22 @@ public class HomeworkRestController {
     return this.homeworkService
         .getHomeworkListByMember(memberNo, page, size)
         .map(this.resHomeworkMapper::toDto);
+  }
+
+  @GetMapping("character")
+  public Object getHomeworkCharacterList(
+      @RequestParam final Integer characterNo,
+      @RequestParam(required = false, defaultValue = "0") final Integer page,
+      @RequestParam(required = false, defaultValue = "10") final Integer size) {
+    return this.homeworkService
+        .getHomeworkListByCharacter(characterNo, page, size)
+        .map(this.resHomeworkMapper::toDto);
+  }
+
+  @DeleteMapping("character")
+  public Object deleteHomeworkCharacter(@RequestBody final ReqCharacterHomework reqCharacterHomework) {
+    this.homeworkService
+        .deleteM2CharacterHomework(reqCharacterHomework.getCharacterNo(), reqCharacterHomework.getHomeworkNo());
+    return "{}";
   }
 }

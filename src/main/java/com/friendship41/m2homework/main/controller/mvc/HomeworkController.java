@@ -8,7 +8,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/homework")
 public class HomeworkController {
   @GetMapping("list")
-  public String getHomeworkList() {
+  public String getHomeworkListPage() {
     return "main/homeworkList";
+  }
+
+  @GetMapping("character")
+  public String getHomeworkCharacterPage() {
+    return "main/homeworkCharacter";
   }
 }

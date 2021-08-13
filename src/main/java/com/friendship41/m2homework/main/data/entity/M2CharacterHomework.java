@@ -3,7 +3,6 @@ package com.friendship41.m2homework.main.data.entity;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -27,11 +26,11 @@ import lombok.NoArgsConstructor;
 public class M2CharacterHomework {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private int characterHomeworkNo;
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  private Integer characterHomeworkNo;
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "characterNo")
   private M2Character m2Character;
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "homeworkNo")
   private Homework homework;
 }
